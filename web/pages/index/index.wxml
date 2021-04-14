@@ -1,0 +1,75 @@
+<!--index.wxml-->
+<view class="page page-index" >
+  <view class="header">
+    <view class="icon">
+      <image src="../../static/img/setting.png"></image>
+    </view>
+    <text>首页</text>
+  </view>
+  <view class="logo_bg mb-80" >
+  <image class="bround" src="/static/img/bround.png"></image>
+  <image class="erji" src="../../static/img/logo.png" ></image>
+  <view>J10</view>
+   
+  </view>
+
+    <view wx:if='{{showScan}}' class='scroll-bg-view'>
+  
+  
+  </view>
+ 
+  <!-- <image src="../../static/img/logo.png" class="logo mb-80"></image> -->
+  <!-- <image class="bg" src="/static/img/bg.png"></image> -->
+  <view class="pd-60 df mb-48" wx:if='{{!showScan}}'>
+    <view class="item " bindtap="itemClick" data-id="1">
+      <image src="../../static/img/i1.png"></image>
+      <view class="name"> 听力增强</view>
+      <view class="en">Enhance</view>
+    </view>
+    <view class="item" bindtap="itemClick" data-id="2">
+      <image src="../../static/img/i2.png"></image>
+      <view class="name">听力评估</view>
+      <view class="en">Assessment</view>
+    </view>
+  </view>
+  <view class="pd-60 df mb-48" wx:if='{{!showScan}}' >
+    <view class="item-status " data-earid="0" catchtap='_scan' >
+      <image wx:if='{{ear0_connectstatus==0}}' src="../../static/img/none.png"></image>
+      <view  wx:if='{{ear0_connectstatus==0}}' class="name"> 无设备</view>
+ 
+      <image  wx:if='{{ear0_connectstatus>0}}' src="../../static/img/connet.png"></image>
+      <view wx:if='{{ear0_connectstatus>0}}' class="name">已链接</view>
+    </view>
+    <view class="item-status" data-earid="1" catchtap='_scan' >
+       <image wx:if='{{ear1_connectstatus==0}}' src="../../static/img/none.png"></image>
+      <view  wx:if='{{ear1_connectstatus==0}}' class="name"> 无设备</view>
+
+      <image  wx:if='{{ear1_connectstatus>0}}' src="../../static/img/connet.png"></image>
+      <view wx:if='{{ear1_connectstatus>0}}' class="name">已链接</view>
+    </view>
+  </view>
+</view>
+ 
+<!--屏幕背景变暗的背景  -->
+  <view class="commodity_screen" bindtap="hideModal" wx:if="{{showScan}}"></view>
+  <!--弹出框  -->
+  <view animation="{{animationData}}" class="commodity_attr_box" wx:if="{{showScan}}">
+    <scroll-view scroll-y>
+      <block wx:for='{{devices}}' wx:key='{{item.deviceId}}'>
+        <view class='' id='{{index}}' hover-class='btn-hover' catchtap='_connect'>
+          <view class='signal-image-view  pd-60 df mb-48'>
+            <image class='signal-image' src='../../static/img/index/signal{{item.RSSI<-75?1:item.RSSI<-65?2:item.RSSI<-55?3:4}}.png'></image>
+            <text>   </text>
+            <text>{{item.name?item.name:"Unnamed"}}</text>
+            <text>  (  {{item.deviceId}} ) </text>
+            
+          </view>
+  
+
+        </view>
+      
+      </block>
+    </scroll-view>
+  
+  
+  </view>

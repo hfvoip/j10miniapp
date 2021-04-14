@@ -1,0 +1,7 @@
+<!--components/bar/bar.wxml-->
+<view class="{{isLarge?'bar':'bar2'}}" bindtap="changeoffset" id="bar">
+  <view class="bbg" style="top:{{height}}px"></view>
+  <view class="circle" style="top:{{top}}px" >
+    <text wx:if="{{isLarge}}" class="barText">{{text}}</text>
+  </view>
+</view>

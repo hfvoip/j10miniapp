@@ -1,0 +1,115 @@
+/**app.wxss**/
+.page {
+  background-color: #e4f0fa;
+  min-height: 100vh;
+  padding-top: 60rpx;
+}
+
+.br-40 {
+  border-radius: 40rpx;
+}
+
+.bs1 {
+  box-shadow: 19px 21px 56px 0px rgba(176, 195, 210, 0.73), -8px 0px 8px 0px rgba(244, 248, 251, 0.50), -8px -40px 22px 0px rgba(246, 251, 255, 0.38), -11px -11px 20px 0px rgba(255, 255, 255, 0.27);
+}
+
+.bg {
+  background-color: #e4f0fa;
+}
+
+.df {
+  display: flex;
+}
+
+.fsb {
+  display: flex;
+  justify-content: space-between;
+}
+
+.df-ac {
+  display: flex;
+  align-items: center;
+}
+
+.wrap {
+  flex-wrap: wrap;
+}
+
+.df-cc {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+.tac {
+  text-align: center;
+}
+
+.tal {
+  text-align: left;
+}
+
+.fz24 {
+  font-size: 24rpx;
+}
+
+.fz48 {
+  font-size: 48rpx;
+}
+
+.fz30 {
+  font-size: 30rpx;
+}
+
+
+
+.header {
+  padding-left: 40rpx;
+  text-align: center;
+  font-size: 48rpx;
+  color: #000;
+  font-weight: bold;
+  position: relative;
+  height: 90rpx;
+  line-height: 90rpx;
+  margin-bottom: 20rpx;
+}
+
+.header .icon {
+  width: 90rpx;
+  position: absolute;
+  left: 40rpx;
+  height: 90rpx;
+  background: #e8f3fb;
+  border-radius: 50%;
+  box-shadow: 19px 21px 50px 0px rgba(176, 195, 210, 0.73), -8px 0px 8px 0px rgba(244, 248, 251, 0.50), -8px -40px 22px 0px rgba(246, 251, 255, 0.38), -11px -11px 20px 0px rgba(255, 255, 255, 0.27);
+}
+
+.header image {
+  width: 40rpx;
+  height: 40rpx;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.logo {
+  height: 760rpx;
+  width: 100vw;
+}
+
+.mb-80 {
+  margin-bottom: 80rpx;
+}
+
+.mb-40 {
+  margin-bottom: 40rpx;
+}
+.mb-10 {
+  margin-bottom: 10rpx;
+}
+
+view {
+  box-sizing: border-box;
+}

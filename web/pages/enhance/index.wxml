@@ -1,0 +1,112 @@
+<!--pages/enhance/index.js.wxml-->
+<view class="page page-enhance">
+	<view class="header">
+		<view class="icon" bindtap="goBack">
+      <image src="../../static/img/home.png"></image>
+    </view>
+		<text>听力增强</text>
+	</view>
+	<view class="tab">
+		<view class="tab-item {{curId==item.id?'active':''}}" wx:for="{{tab}}" wx:key="index" data-item="{{item}}" bindtap="handleClick">
+			<image src="{{item.icon}}"></image>
+			<text>{{item.name}}</text>
+		</view>
+	</view>
+	<view wx:if="{{curId==1}}" class="volice">
+		<view class="df fsb mb-40">
+     <bar bind:change="changeLarge" data-id="l1" bind:myevent="onMyEvent"  precentData="{{num1}}"  isLarge="{{true}}"></bar>
+     <bar bind:change="changeLarge" data-id="l2" bind:myevent="onMyEvent"  precentData="{{num3}}" isLarge="{{true}}"></bar>
+		</view>
+		<view class="df fsb tac">
+			<view class="left">
+				<view class="ear-l {{ear_active_1==true?'earTrue':'ear'}}">
+					<image hidden="{{ear_active_1==true}}" src="/static/img/ear-l.png" class="ear-l"></image>
+					<image hidden="{{ear_active_1==false}}" src="/static/img/ear-l-yes.png" class="ear-l"></image>
+				</view>
+				<view class="label">左耳</view>
+			</view>
+			<view class="lock"  bindtap="toggleLock" data-lock="{{isLock}}">
+				<image src="../../static/img/lock_yes.png" wx:if="{{isLock}}" style="width:48rpx;height:24rpx"></image>
+				<image src="../../static/img/ulock.png" wx:if="{{!isLock}}"></image>
+			</view>
+			<view class="left">
+				<view class="ear-l {{ear_active_2==true?'earTrue':'ear'}}">
+					<image src="{{ear_active_2==true?'/static/img/ear-r-yes.png':'/static/img/ear-r.png'}}" class="ear-l"></image>
+				</view>
+				<view class="label">右耳</view>
+			</view>
+		</view>
+
+	</view>
+	<view wx:if="{{curId==2}}" style="padding-bottom:130rpx;">
+		<view class="model-box">
+			<view class="model-item  {{model_active==1?'model-item-active':'model-item-false'}}" bindtap="modelItem" data-num="1">
+				<image src="{{model_active==1?'/static/img/icon-edit_yes.png':'/static/img/icon-edit.png'}}"></image>
+				<view class="title">通用</view>
+				<view class="des">Currency</view>
+			</view>
+			<view class="model-item  {{model_active==2?'model-item-active':'model-item-false'}}" bindtap="modelItem" data-num="2">
+				<image src="{{model_active==2?'/static/img/cof_yes.png':'/static/img/cof.png'}}"></image>
+				<view class="title">餐厅</view>
+				<view class="des">Restaurant</view>
+			</view>
+			<view class="model-item {{model_active==3?'model-item-active':'model-item-false'}}" bindtap="modelItem" data-num="3">
+				<image src="{{model_active==3?'/static/img/car_yes.png':'/static/img/car.png'}}"></image>
+				<view class="title">交通</view>
+				<view class="des">Traffic</view>
+			</view>
+			<view class="model-item {{model_active==4?'model-item-active':'model-item-false'}}" bindtap="modelItem" data-num="4">
+				<image src="{{model_active==4?'/static/img/bal_yes.png':'/static/img/bal.png'}}"></image>
+				<view class="title">运动</view>
+				<view class="des">Motion</view>
+			</view>
+		</view>
+		<view class="des-text">
+			<view class="mb-10"> 如果通过按下设备上的按键切换模式,APP中显示的当前模式不会同步切换。</view>
+			<view>如果您的左右耳都连接了设备,在APP中切换模式将同时改变他们的模式。</view>
+		</view>
+	</view>
+	<view wx:if="{{curId==3}}">
+	<view class="df fsb box number">
+      <view class="number">{{n1}}</view>
+      <view class="number">{{n2}}</view>
+      <view class="number">{{n3}}</view>
+      <view class="number">{{n4}}</view>
+      
+    </view>
+		<view class="df fsb barContainer">
+		 <bar bind:change="change" data-id="n1" precentData="{{num_ch1_cr}}"></bar>	
+		 <bar bind:change="change" data-id="n2" precentData="{{num_ch2_cr}}"></bar>	
+		 <bar bind:change="change" data-id="n3" precentData="{{num_ch3_cr}}"></bar>	
+		 <bar bind:change="change" data-id="n4" precentData="{{num_ch4_cr}}"></bar>	
+ 
+		
+		</view>
+    <view class="df fsb box">
+      <view class="text">1kHz</view>
+      <view class="text">2kHz</view>
+      <view class="text">4kHz</view>
+      <view class="text">6kHz</view>
+    
+    </view>
+    	<view class="df fsb tac" style="padding-left:150rpx;padding-right:150rpx;">
+			<view class="left">
+				<view class="ear-l {{spectrum_active=='zuo'?'earTrue':'ear'}}" bindtap="earTab" data-name="zuo">
+					<image src="{{spectrum_active=='zuo'?'/static/img/ear-l-yes.png':'/static/img/ear-l.png'}}" class="ear-l"></image>
+				</view>
+				<view class="label">左耳</view>
+			</view>
+			<view class="lock"  bindtap="toggleLock" data-lock="{{isLock}}">
+				<image src="../../static/img/lock_yes.png" wx:if="{{isLock}}"  style="width:48rpx;height:24rpx"></image>
+				<image src="../../static/img/ulock.png" wx:if="{{!isLock}}"></image>
+			</view>
+			<view class="left">
+				<view class="ear-l {{spectrum_active=='you'?'earTrue':'ear'}}" bindtap="earTab" data-name="you">
+					<image src="{{spectrum_active=='you'?'/static/img/ear-r-yes.png':'/static/img/ear-r.png'}}" class="ear-l"></image>
+				</view>
+				<view class="label">右耳</view>
+			</view>
+		</view>
+	</view>
+
+</view>
