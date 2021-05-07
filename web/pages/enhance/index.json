@@ -1,5 +1,6 @@
 {
   "usingComponents": {
-    "bar":"/components/bar/bar"
+    "bar":"/components/bar/bar",
+    "twobar": "/components/twobar/twobar"
   }
 }

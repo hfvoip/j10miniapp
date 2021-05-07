@@ -51,6 +51,15 @@
   text-shadow: 0px 1px 1px 0px rgba(39, 44, 54, 0.20);
 }
 
+ .label_title {
+  font-size: 30rpx;
+  font-family: PingFangSC, PingFangSC-Medium;
+  font-weight: blod;
+  margin-left:50rpx;
+  text-align: center;
+  color: #6e81a0;
+  text-shadow: 0px 1px 1px 0px rgba(39, 44, 54, 0.20);
+}
 
 .ear {
   position: relative;
@@ -205,7 +214,7 @@
 .des-text {
   margin: 0 40rpx;
   padding: 30rpx 34rpx;
-  height: 276rpx;
+  height: 316rpx;
   color: #6E81A0;
   background: #e3edf7;
   line-height: 48rpx;

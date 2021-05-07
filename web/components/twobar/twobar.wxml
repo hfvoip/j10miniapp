@@ -1,0 +1,16 @@
+<!--components/bar/bar.wxml-->
+<view class="bar2"   id="bar">
+  <view class="bbg" style="top:{{circleTop}}px;height:{{circleTop2 -circleTop}}px"></view> 
+
+  
+<view class="circle"     catchtouchmove="buttoncircleMove" bindtouchstart="buttoncircleStart" bindtouchend="buttoncircleEnd" style="top:{{ circleTop }}px;" >
+    <text wx:if="{{isLarge}}" class="barText">{{text}}</text>
+  </view>
+
+  <view class="circle2" style="top:{{circleTop2}}px"   catchtouchmove="buttoncircleMove2" bindtouchstart="buttoncircleStart2" bindtouchend="buttoncircleEnd2">
+    <text wx:if="{{isLarge}}" class="barText">{{text}}</text>
+  </view>
+
+  
+
+</view>

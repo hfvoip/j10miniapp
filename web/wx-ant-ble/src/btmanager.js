@@ -2,7 +2,7 @@
 
 import { Log } from './extends.js';
 import { ConnectStatus } from './enum.js';
-import Bluetooth from './bluetooth.js';
+import Bluetooth from './bluetoothv2.js';
 
 export class BTManager {
 
@@ -23,6 +23,11 @@ export class BTManager {
       this.deviceInfo = {};
       // 初始化连接状态
       this.connectStatus = ConnectStatus.disconnected;
+
+      this.arr_deviceInfo = new Array();
+      this.arr_connectStatus = new Array(); 
+
+
       // 初始化蓝牙管理器
       this._bt = new Bluetooth(this);
     }
@@ -89,6 +94,12 @@ export class BTManager {
     return this._bt.connect(device);
   }
 
+  connectbydevid(deviceid, timeout) {
+    if (!device) throw new Error('device is undefiend');
+    return this._bt.connectbydevid(deviceid);
+  }
+
+
   /**
    *  断开连接
    * 
@@ -96,6 +107,10 @@ export class BTManager {
    */
   disconnect() {
     return this._bt.disconnect();
+  }
+
+  disconnectbydevid(deviceid) {
+    return this._bt.disconnectbydevid(deviceid);
   }
 
   /**
@@ -115,6 +130,14 @@ export class BTManager {
       }) 
   {
     return this._bt.read(params);
+  }
+
+  readbydevid(params = {
+    deviceid:'',
+    suuid: '',
+    cuuid: ''
+  }) {
+    return this._bt.readbydevid(params);
   }
 
   /**
@@ -137,6 +160,14 @@ export class BTManager {
   {
     return this._bt.write(params);
   }
+  writebydevid(params = {
+    deviceid:'',
+    suuid: '',
+    cuuid: '',
+    value: ''
+  }) {
+    return this._bt.writebydevid(params);
+  }
 
   /**
    *  监听特征值改变
@@ -158,7 +189,33 @@ export class BTManager {
   {
     return this._bt.notify(params);
   }
+  notifybydevid(params = {
+    deviceid: '',
+    suuid: '',
+    cuuid: '',
+    state: true,
+  }) {
+    return this._bt.notifybydevid(params);
+  }
 
+  reset_arrstatus(){
+    this.arr_connectStatus = new Array();
+  }
+
+  getstatusbydevid(devid) {
+    let cnt = this.arr_connectStatus.length;
+    if (cnt==0) return ConnectStatus.disconnected;
+    let obj = this.arr_connectStatus[devid];
+    if (obj) {
+      return obj;
+    } else
+    return ConnectStatus.disconnected;
+
+  }
+  updatestatusbydevid(devid,status) {
+    this.arr_connectStatus[devid] = status; 
+  }
+ 
   /**
    *  注册状态改变回调
    *

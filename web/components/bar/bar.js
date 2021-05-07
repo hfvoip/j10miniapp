@@ -40,6 +40,7 @@ Component({
         text: precentData.text
       })
       */
+    
       this.setPosition();
     },
 
@@ -76,7 +77,8 @@ Component({
       let max = this.data.circleHeight / 2 - 20
       let num = this.data.precentData.text.replace('%', '')
       let data = (100 - num + parseInt(max / (min - max) * 100)) / 100 * (min - max)
-      console.log('L74: min:'+min+',max:'+max+',data:'+data);
+     // console.log(num);
+     // console.log('L74: min:'+min+',max:'+max+',data:'+data);
       this.setData({
         height: data,
         top: data,
@@ -121,6 +123,7 @@ Component({
       this.setData({
         startY: e.changedTouches[0].pageY
       })
+      this.triggerEvent('myevent', { detail:true})
     },
     touchEnd(e) {
       /*
@@ -154,6 +157,7 @@ Component({
       })
       this.triggerEvent('change', { precent, offset })
       */
+      this.triggerEvent('myevent', { detail: false })
     },
     changeoffset(e) {
       console.log(e.changedTouches[0]);
@@ -163,7 +167,7 @@ Component({
       let min = this.data.circleHeight / 2
       let offset = e.changedTouches[0].pageY - this.data.barTop;
  
-     console.log('min:'+min+',max:'+max+',offset:'+offset);
+    // console.log('min:'+min+',max:'+max+',offset:'+offset);
 
  
       if (offset <= min) {
@@ -186,6 +190,53 @@ Component({
         text: precent + '%'
       })
       this.triggerEvent('change', { precent, offset })
+    },
+    buttoncircleMove: function (e) {
+     
+      let max = this.data.barHeight - this.data.circleHeight / 2
+      let min = this.data.circleHeight / 2
+      var touchs = e.touches[0];
+      var pageX = touchs.pageX;
+      var pageY = touchs.pageY;
+      
+      let offset = pageY - this.data.barTop;
+
+      if (offset <= min) {
+        offset = min
+      }
+      if (offset >= max) {
+        offset = max
+      }
+
+      //防止坐标越界,view宽高的一般
+      this.setData({
+        top: offset,
+        height: offset
+      })
+      let precent = 100 - parseInt(offset / (max - min) * 100) + parseInt(min / (max - min) * 100)
+   
+      if (precent <= 1) {
+        precent = 0
+      }
+      this.setData({
+        text: precent + '%'
+      })
+     // this.triggerEvent('change', { precent, offset })
+      
+    },
+    buttoncircleEnd:function(e) {
+      let offset  =this.data.top;
+      let max = this.data.barHeight - this.data.circleHeight / 2
+      let min = this.data.circleHeight / 2
+
+      let precent = 100 - parseInt(offset / (max - min) * 100) + parseInt(min / (max - min) * 100)
+
+      if (precent <= 1) {
+        precent = 0
+      }
+      this.triggerEvent('change', { precent, offset });
+
     }
+
   }
 })

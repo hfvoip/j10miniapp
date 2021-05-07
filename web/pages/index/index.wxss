@@ -153,7 +153,7 @@
 .commodity_attr_box {
   height: 500rpx;
   width: 100%;
-  overflow: scroll;
+  overflow-y: auto;
   position: fixed;
   bottom: 30rpx;
   left: 0;

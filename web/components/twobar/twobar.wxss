@@ -1,0 +1,60 @@
+/* components/bar/bar.wxss */
+
+
+
+.bar2 {
+  width: 70rpx;
+  height: 668rpx;
+  position: relative;
+  background: linear-gradient(135deg, #e2f1ff, #eef1f3);
+  /* border-image: linear-gradient(149deg, rgba(207, 219, 231, 0.38) 0%, #e3edf7 100%) 2.4 2.4; */
+  border-radius: 140rpx;
+  box-shadow: 0px 2px 18px 0px #c8d4e2 inset, 0px 7px 14px 0px #c9d3e2 inset, -10px -8px 10px 0px rgba(255, 255, 255, 0.75) inset;
+}
+
+.bar2 .bbg {
+  width: 34rpx;
+  /* height: 50%; */
+  background: linear-gradient(45deg, #0061c8 0%, #5cd3ff 87%);
+ 
+  border-radius: 138px;
+  position: absolute;
+  left: 50%;
+
+  transform: translateX(-50%);
+  bottom: 8rpx;
+}
+
+.bar2 .circle {
+  width: 54rpx;
+  height: 54rpx;
+  position: absolute;
+  /* top: 50%; */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(180deg, #ffffff, #d6e4f2 88%);
+  border-radius: 50%;
+  box-shadow: 19px 21px 50px 0px rgba(176, 195, 210, 0.73), -8px 0px 8px 0px rgba(244, 248, 251, 0.50), -8px -40px 22px 0px rgba(246, 251, 255, 0.38), -11px -11px 20px 0px rgba(255, 255, 255, 0.27);
+}
+ 
+.bar2 .circle2 {
+  width: 54rpx;
+  height: 54rpx;
+  position: absolute;
+  /* top: 50%; */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(180deg, #d6e4f2, #ffffff 88%);
+  border-radius: 50%;
+  box-shadow: 19px 21px 50px 0px rgba(176, 195, 210, 0.73), -8px 0px 8px 0px rgba(244, 248, 251, 0.50), -8px -40px 22px 0px rgba(246, 251, 255, 0.38), -11px -11px 20px 0px rgba(255, 255, 255, 0.27);
+}
+
+.barText {
+  font-size: 48rpx;
+  font-family: Helvetica;
+  text-align: center;
+  color: #6e81a0;
+  line-height: 200rpx;
+  text-shadow: 0px 1px 1px 0px rgba(39,44,54,0.20); 
+ 
+}

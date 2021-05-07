@@ -9,7 +9,7 @@ Page({
     showScan: false,
     filterRssi: -100,
     // 过滤名称
-    filterName: '',
+    filterName: 'J10',
     // 是否显示filter
     showFilter: false,
     
@@ -126,7 +126,8 @@ Page({
         return false;
       }
       // 更新 & 过滤 
-      if (!checkDuplicateDevice(device, devices) && device.RSSI >= this.data.filterRssi) {
+      if (!checkDuplicateDevice(device, devices) && device.RSSI >= this.data.filterRssi
+      ) {
         devices.push(device);
       }
       this.setData({ devices });

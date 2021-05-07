@@ -1,7 +1,10 @@
 <!--components/bar/bar.wxml-->
-<view class="{{isLarge?'bar':'bar2'}}" bindtap="changeoffset" id="bar">
+<view class="{{isLarge?'bar':'bar2'}}"    id="bar">
   <view class="bbg" style="top:{{height}}px"></view>
-  <view class="circle" style="top:{{top}}px" >
+  <view class="circle" style="top:{{top}}px"  
+    catchtouchmove="buttoncircleMove" bindtouchstart="buttoncircleStart" bindtouchend="buttoncircleEnd"  
+  
+  >
     <text wx:if="{{isLarge}}" class="barText">{{text}}</text>
   </view>
 </view>

@@ -3,7 +3,7 @@
 import { ConnectStatus, SuccessCallbackEvent, ErrorCallbackEvent, SuccessApiThen, ErrorApiCatch} from './enum.js';
 import _ from './tools.js';
 
-export default class Bluetooth {
+export default class BluetoothV2 {
 
   constructor(btmanager) {
     this.bm = btmanager;
@@ -143,6 +143,8 @@ export default class Bluetooth {
             }
             // 存储新设备
             this.scanDevices.push(device);
+
+
           }
         })
         return Promise.resolve(SuccessApiThen.Success_Scan);
@@ -184,6 +186,8 @@ export default class Bluetooth {
         }
       })
   }
+ 
+
 
   /**
    *  连接外设
@@ -196,8 +200,11 @@ export default class Bluetooth {
    *  @discussion 连接指定的外设，需要传入外设对象。
    *              注意实现返回对象的then和catch方法，监听接口是否调用成功。
    */
-  connect(device , timeout) {
+  connect(device, timeout) {
     // 判断是否已经连接
+    let connectStatus = this.bm.getstatusbydevid(device.deviceId);
+    this.bm.connectStatus = connectStatus;
+
     if (this.bm.connectStatus !== ConnectStatus.disconnected) {
       this.bm.logwarn('connect fail', 'Is already connected');
       return Promise.reject(ErrorApiCatch.Error_Connect_AlreadyConnected);
@@ -217,15 +224,15 @@ export default class Bluetooth {
       .then(__ => {
         // 连接设备
         return _.api('createBLEConnection', 'connectBLEDevice', {
-          deviceId ,
-          timeout: timeout || 15000 ,
+          deviceId,
+          timeout: timeout || 15000,
         })
-      }).then( res => {
+      }).then(res => {
         this.bm.log('connectBLEDevice success', res);
         // 取消蓝牙连接状态监听，仅支付宝小程序有效
         _.api('offBLEConnectionStateChanged').then(__ => __).catch(__ => __);
         // 蓝牙连接状态监听
-        _.on('onBLEConnectionStateChange', 'onBLEConnectionStateChanged',(res) => {
+        _.on('onBLEConnectionStateChange', 'onBLEConnectionStateChanged', (res) => {
           this.bm.log('onBLEConnectionStateChange', res);
           if (!res.connected && this.bm.connectStatus !== ConnectStatus.disconnected) {
             this.bm.connectStatus = ConnectStatus.disconnected;
@@ -233,7 +240,7 @@ export default class Bluetooth {
               this.callBackConnectStatus(SuccessCallbackEvent.Success_ConnectStatus_CB_Stop);
             } else if (res.errorCode === 10003) {
               this.callBackConnectStatus(ErrorCallbackEvent.Error_ConnectStatus_CB_Disconnected);
-            } else if (_.getAppPlatform() === 'ant'){
+            } else if (_.getAppPlatform() === 'ant') {
               this.callBackConnectStatus(ErrorCallbackEvent.Error_ConnectStatus_CB_Disconnected);
             }
           }
@@ -266,6 +273,7 @@ export default class Bluetooth {
             // 获取特征成功之后才算连接成功
             this.bm.deviceInfo = device;
             this.bm.connectStatus = ConnectStatus.connected;
+
             this.callBackConnectStatus(SuccessCallbackEvent.Success_ConnectStatus_CB_Connected);
           }).catch(e => {
             this.bm.logwarn('api connecting error', e);
@@ -287,14 +295,14 @@ export default class Bluetooth {
         this.callBackConnectStatus(e);
         if (e.code === 12 || e.code === 10001) {
           return Promise.reject(ErrorApiCatch.Error_Connect_PowerOff);
-        } else if (~e.message.indexOf('超时') || (e.errMsg && ~e.errMsg.indexOf('time out'))){
+        } else if (~e.message.indexOf('超时') || (e.errMsg && ~e.errMsg.indexOf('time out'))) {
           return Promise.reject(ErrorApiCatch.Error_Connect_Timeout);
         } else {
           return Promise.reject(ErrorApiCatch.Error_Connect_Failed);
         }
       })
   }
- 
+
   /**
    *  断开连接
    * 
@@ -302,15 +310,15 @@ export default class Bluetooth {
    */
   disconnect() {
 
-    this.bm.connectStatus === ConnectStatus.connected && 
-    _.api('closeBLEConnection','disconnectBLEDevice',{
+    this.bm.connectStatus === ConnectStatus.connected &&
+      _.api('closeBLEConnection', 'disconnectBLEDevice', {
         deviceId: this.bm.deviceInfo.deviceId
       }).then(res => {
         this.bm.log('closeBLEConnection success', res);
       }).catch(e => {
         this.bm.log('closeBLEConnection fail', e);
       })
-      
+
     _.api('closeBluetoothAdapter')
       .then(res => {
         this.bm.log('closeBluetoothAdapter success', res);
@@ -327,15 +335,43 @@ export default class Bluetooth {
     return Promise.resolve(SuccessApiThen.Success_Disconnect);
   }
 
+ 
   /**
-   *  读特征值
+   *  断开连接
    * 
-   *  @param {object} params               参数
-   *   @property {string} suuid            特征对应的服务uuid
-   *   @property {string} cuuid            写入特征uuid
-   * 
-   *  @discussion 读某个服务下的某个特征值。
+   *  @return Promise对象
    */
+  disconnectbydevid(devid) {
+    let deviceId = devid;
+    this.bm.deviceInfo = this.getdevicebydevid(devid);
+    let connectStatus = this.bm.getstatusbydevid(devid); 
+     connectStatus === ConnectStatus.connected && 
+    _.api('closeBLEConnection','disconnectBLEDevice',{
+        deviceId:  deviceId
+      }).then(res => {
+        this.bm.log('closeBLEConnection success', res);
+      }).catch(e => {
+        this.bm.log('closeBLEConnection fail', e);
+      })
+      
+    _.api('closeBluetoothAdapter')
+      .then(res => {
+        this.bm.log('closeBluetoothAdapter success', res);
+        this.isInitializedAdapter = false;
+        connectStatus = this.bm.getstatusbydevid(deviceId); 
+        
+        if ( connectStatus !== ConnectStatus.disconnected) {
+         
+          this.bm.connectStatus = ConnectStatus.disconnected; 
+          this.callBackConnectStatus(SuccessCallbackEvent.Success_ConnectStatus_CB_Stop);
+        };
+       
+      }).catch(e => {
+        this.bm.log('closeBluetoothAdapter fail', e);
+      })
+
+    return Promise.resolve(SuccessApiThen.Success_Disconnect);
+  }
   read(params) {
     if (this.bm.connectStatus === ConnectStatus.connected) {
       let { suuid, cuuid } = params;
@@ -362,7 +398,35 @@ export default class Bluetooth {
       return Promise.reject(ErrorApiCatch.Error_Read_NotConnected);
     }
   }
- 
+
+  readbydevid(params) {
+    let { deviceid, suuid, cuuid } = params;
+    let connectStatus = this.bm.getstatusbydevid(deviceid);
+    if ( 1) {
+    
+      return _.api('readBLECharacteristicValue', '', {
+        deviceId:  deviceid,
+        serviceId: suuid,
+        characteristicId: cuuid,
+      }).then(res => {
+        this.bm.log('readBLECharacteristicValue success', res);
+        return Promise.resolve(SuccessApiThen.Success_Read);
+      }).catch(e => {
+        this.bm.log('readBLECharacteristicValue fail', e);
+        if (e.code === 10007) {
+          return Promise.reject(ErrorApiCatch.Error_Read_NotSupport);
+        } else if (e.code === 10004) {
+          return Promise.reject(ErrorApiCatch.Error_Read_NoService);
+        } else if (e.code === 10005) {
+          return Promise.reject(ErrorApiCatch.Error_Read_NoCharacteristic);
+        } else {
+          return Promise.reject(ErrorApiCatch.Error_Read_Failed);
+        }
+      })
+    } else {
+      return Promise.reject(ErrorApiCatch.Error_Read_NotConnected);
+    }
+  }
 
 
   /**
@@ -378,7 +442,7 @@ export default class Bluetooth {
    *  @discussion 向蓝牙模块写入数据。
    */
   write(params) {
-    let {suuid , cuuid , value} = params;
+    let { suuid, cuuid, value } = params;
     if (this.bm.connectStatus === ConnectStatus.connected) {
       if (_.getAppPlatform() === 'wx') {
         if (typeof value === 'string') {
@@ -386,7 +450,7 @@ export default class Bluetooth {
         } else {
           value = typedArrayToArrayBuffer(value);
         }
-      } else if (typeof value !== 'string'){
+      } else if (typeof value !== 'string') {
         value = _.ab2str(value);
       }
       this.bm.log('writeCmdToDevice', _.ab2str(value));
@@ -414,24 +478,56 @@ export default class Bluetooth {
       return Promise.reject(ErrorApiCatch.Error_Write_NotConnected);
     }
   }
+
  
-  /**
-   *  监听特征值改变
-   * 
-   *  @param {object} params        参数
-   *   @property {string} suuid       特征对应的服务uuid
-   *   @property {string} cuuid       写入特征uuid
-   *   @property {boolean} state      是否启用notify，可以通过重复调用接口改变此属性打开/关闭监听  
-   * 
-   *  @return Promise对象
-   * 
-   *  @discussion 监听某个特征值变化。
-   */
-  notify(params) {
-    if (this.bm.connectStatus === ConnectStatus.connected) {
-      let { suuid, cuuid, state } = params;
+  writebydevid(params) {
+    let { deviceid,suuid, cuuid, value } = params;
+  
+
+    if ( true) {
+      if (_.getAppPlatform() === 'wx') {
+        if (typeof value === 'string') {
+          value = _.str2ab(value);
+        } else {
+          value = typedArrayToArrayBuffer(value);
+        }
+      } else if (typeof value !== 'string') {
+        value = _.ab2str(value);
+      }
+      this.bm.log('writeCmdToDevice', _.ab2str(value));
+      return _.api('writeBLECharacteristicValue', '', {
+        deviceId: deviceid,
+        serviceId: suuid,
+        characteristicId: cuuid,
+        value,
+      }).then(res => {
+        this.bm.log('writeBLECharacteristicValue success', res);
+        return Promise.resolve(SuccessApiThen.Success_Write);
+      }).catch(e => {
+        this.bm.log('writeBLECharacteristicValue fail', e);
+        if (e.code === 10007) {
+          return Promise.reject(ErrorApiCatch.Error_Write_NotSupport);
+        } else if (e.code === 10004) {
+          return Promise.reject(ErrorApiCatch.Error_Write_NoService);
+        } else if (e.code === 10005) {
+          return Promise.reject(ErrorApiCatch.Error_Write_NoCharacteristic);
+        } else {
+          return Promise.reject(ErrorApiCatch.Error_Write_Failed);
+        }
+      })
+    } else {
+      return Promise.reject(ErrorApiCatch.Error_Write_NotConnected);
+    }
+  }
+ 
+
+  notifybydevid(params) {
+    let { deviceId, suuid, cuuid, state } = params; 
+    let connectStatus = this.bm.getstatusbydevid(deviceId);
+    if ( connectStatus === ConnectStatus.connected) {
+       
       return _.api('notifyBLECharacteristicValueChange', '', {
-        deviceId: this.bm.deviceInfo.deviceId,
+        deviceId: deviceId,
         serviceId: suuid,
         characteristicId: cuuid,
         state
@@ -454,7 +550,7 @@ export default class Bluetooth {
       return Promise.reject(ErrorApiCatch.Error_Notify_NotConnected);
     }
   }
- 
+
   /**
    *  注册状态改变回调
    *
@@ -497,10 +593,24 @@ export default class Bluetooth {
     })
   }
 
+  getdevicebydevid(devid) {
+    for (let v of this.scanDevices) {
+      if (v.deviceId === devid) {
+        
+        return v;
+      }
+    }
+    return null;
+  }
+
   /**
    * 回调蓝牙连接状态
    */
   callBackConnectStatus(status) {
+
+    if (this.bm.deviceInfo) { 
+      this.bm.updatestatusbydevid(this.bm.deviceInfo.deviceId, this.bm.connectStatus);
+    }
     this._didUpdateStatusCB && this._didUpdateStatusCB({
       ...status,
       device:this.bm.deviceInfo,
