@@ -1,0 +1,42 @@
+<!--index.wxml-->
+<view class="page page-puretone" >
+  <view class="header">
+    <view class="icon">
+      <image src="../../static/img/setting.png"></image>
+    </view>
+    <text>纯音测听</text>
+  </view> 
+   
+	<view class="model-box">
+			<view class="model-item" bindtap="toggle_play"    >
+				<image src="{{is_play==1?'/static/img/pause_button.png':'/static/img/play_button.png'}}"></image>
+				<view class="title">开始</view>
+				<view class="des">点此开始纯音测听，根据是否听见请点“听见”/"听不见"按钮</view>
+			</view>
+		 
+		
+		</view>
+	 
+		<view class="model-resultbox" style="height:300rpx">
+	 
+
+		</view>
+		
+		<view class="df fsb tac" style=" padding-left:150rpx;padding-right:150rpx;">
+			<view class="left">
+				<view class="ear-l {{ear_active_1== true ?'earTrue':'ear'}}" bindtap="earTab" data-name="zuo">
+					<image src="{{ear_active_1== true ?'/static/img/ear-l-yes.png':'/static/img/ear-l.png'}}" class="ear-l"></image>
+				</view>
+				<view class="label">左耳</view>
+			</view>
+			<view class="lock"   >
+			 
+			</view>
+			<view class="left">
+				<view class="ear-l {{ear_active_2==true ?'earTrue':'ear'}}" bindtap="earTab" data-name="you">
+					<image src="{{ear_active_2==true?'/static/img/ear-r-yes.png':'/static/img/ear-r.png'}}" class="ear-l"></image>
+				</view>
+				<view class="label">右耳</view>
+			</view>
+		</view>
+  </view>

@@ -20,13 +20,27 @@ Page({
     earid_scanning:0,
   },
   itemClick(e) {
-    let type = e.currentTarget.dataset.id
+    var that = this;
+    let type = e.currentTarget.dataset.id;
+    let active_ear=0;
+    if (that.data.ear0_connectstatus ==2)  active_ear = 0;
+    if (that.data.ear1_connectstatus == 2) active_ear = 1;
+
    if(type==1) {
      wx.navigateTo({
-       url: '/pages/enhance/index',
+       url: '/pages/enhance/index?active_ear='+active_ear,
      })
 
    }
+
+    if (type == 2) {
+      wx.navigateTo({
+        url: '/pages/index/puretone?active_ear='+active_ear,
+      })
+
+    }
+    
+
   },
 
   /**
@@ -60,7 +74,7 @@ Page({
     this.data.ear0_id = wx.getStorageSync("ear0_id") || null;
     this.data.ear1_id = wx.getStorageSync("ear1_id") || null ;
     
-    
+    /* 
     if (this.data.ear0_id !=null) {
       console.log(this.data.ear0_id);
       this.bt.connect(this.data.ear0_id).then(res => {
@@ -81,7 +95,7 @@ Page({
 
       });
     };
-
+     */
 
   },
 
@@ -195,6 +209,7 @@ Page({
     this._stopScan();
     let index = e.currentTarget.id;
     let device = this.data.devices[index];
+    
     this.bt.connect(device).then(res => {
       console.log('home connect success', res);
       if (this.data.earid_scanning == "0") {

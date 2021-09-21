@@ -33,13 +33,7 @@ Component({
   },
   observers: {
     'precentData': function (precentData) {
-      /*
-      this.setData({
-        top: precentData.num,
-        height: precentData.num,
-        text: precentData.text
-      })
-      */
+       
     
       this.setPosition();
     },
@@ -77,8 +71,7 @@ Component({
       let max = this.data.circleHeight / 2 - 20
       let num = this.data.precentData.text.replace('%', '')
       let data = (100 - num + parseInt(max / (min - max) * 100)) / 100 * (min - max)
-     // console.log(num);
-     // console.log('L74: min:'+min+',max:'+max+',data:'+data);
+    
       this.setData({
         height: data,
         top: data,
@@ -89,34 +82,7 @@ Component({
       this.touchmoveFn(e)
     }, 500),
     touchmoveFn(e) {
-      /*console.log(e);
-    
-      let y = e[0].changedTouches[0].pageY
-      let moveY = y - this.data.startY
-      let min = this.data.barHeight - this.data.circleHeight / 2
-      let max = this.data.circleHeight / 2
-      let offset = this.data.top + moveY / 50
-
-      if (offset <= max) {
-        offset = max
-      }
-      if (offset >= min) {
-        offset = min
-      }
-      this.setData({
-        top: offset,
-        height: offset
-      })
-      let precent = 100 - parseInt(offset / (min - max) * 100) + parseInt(max / (min - max) * 100)
-      // console.log(parseInt(max/(min-max)*100),offset,'dd')
-      if (precent <= 1) {
-        precent = 0
-      }
-      this.setData({
-        text: precent + '%'
-      })
-      this.triggerEvent('change', { precent, offset })
-      */
+     
 
     },
     touchStart(e) {
@@ -126,37 +92,7 @@ Component({
       this.triggerEvent('myevent', { detail:true})
     },
     touchEnd(e) {
-      /*
-      let y = e.changedTouches[0].pageY
-      let moveY = y - this.data.startY
-      let min = this.data.barHeight - this.data.circleHeight / 2
-      let max = this.data.circleHeight / 2
-      let offset = this.data.top + moveY / 50
-
-      console.log('l123:y'+y+',startY: '+this.data.startY+',moveY:'+moveY);
-      console.log('l124:offset:'+offset);
-      console.log('l124:'+'/ min: '+min+'max:'+ max);
-
-      if (offset <= max) {
-        offset = max
-      }
-      if (offset >= min) {
-        offset = min
-      }
-      this.setData({
-        top: offset,
-        height: offset
-      })
-      let precent = 100 - parseInt(offset / (min - max) * 100) + parseInt(max / (min - max) * 100)
-      // console.log(parseInt(max/(min-max)*100),offset,'dd')
-      if (precent <= 1) {
-        precent = 0
-      }
-      this.setData({
-        text: precent + '%'
-      })
-      this.triggerEvent('change', { precent, offset })
-      */
+      
       this.triggerEvent('myevent', { detail: false })
     },
     changeoffset(e) {
@@ -165,10 +101,7 @@ Component({
 
       let max = this.data.barHeight - this.data.circleHeight / 2
       let min = this.data.circleHeight / 2
-      let offset = e.changedTouches[0].pageY - this.data.barTop;
- 
-    // console.log('min:'+min+',max:'+max+',offset:'+offset);
-
+      let offset = e.changedTouches[0].pageY - this.data.barTop; 
  
       if (offset <= min) {
         offset = min
@@ -182,7 +115,7 @@ Component({
         height: offset
       })
       let precent = 100 - parseInt(offset / (max - min) * 100) + parseInt(min / (max - min) * 100)
-      // console.log(parseInt(max/(min-max)*100),offset,'dd')
+       
       if (precent <= 1) {
         precent = 0
       }
@@ -221,7 +154,7 @@ Component({
       this.setData({
         text: precent + '%'
       })
-     // this.triggerEvent('change', { precent, offset })
+     
       
     },
     buttoncircleEnd:function(e) {

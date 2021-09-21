@@ -19,7 +19,7 @@
 		</view>
 		<view class="df fsb tac">
 			<view class="left">
-				<view class="ear-l {{ear_active_1==true?'earTrue':'ear'}}">
+				<view class="ear-l {{ear_active_1==true?'earTrue':'ear'}}"  bindtap="earTab" data-name="zuo">
 					<image hidden="{{ear_active_1==true}}" src="/static/img/ear-l.png" class="ear-l"></image>
 					<image hidden="{{ear_active_1==false}}" src="/static/img/ear-l-yes.png" class="ear-l"></image>
 				</view>
@@ -30,7 +30,7 @@
 				<image src="../../static/img/ulock.png" wx:if="{{!isLock}}"></image>
 			</view>
 			<view class="left">
-				<view class="ear-l {{ear_active_2==true?'earTrue':'ear'}}">
+				<view class="ear-l {{ear_active_2==true?'earTrue':'ear'}}" bindtap="earTab" data-name="you">
 					<image src="{{ear_active_2==true?'/static/img/ear-r-yes.png':'/static/img/ear-r.png'}}" class="ear-l"></image>
 				</view>
 				<view class="label">右耳</view>
@@ -40,22 +40,22 @@
 	</view>
 	<view wx:if="{{curId==2}}" style="padding-bottom:130rpx;">
 		<view class="model-box">
-			<view class="model-item  {{model_active==1?'model-item-active':'model-item-false'}}" bindtap="modelItem" bindtouchstart="modelTouchstart" bindtouchend="modelTouchend"    data-num="1">
+			<view class="model-item  {{model_active==1?'model-item-active':'model-item-false'}}" bindtap="modelItem"   bindtouchstart="modelTouchstart" bindtouchend="modelTouchend"    data-num="1">
 				<image src="{{model_active==1?'/static/img/icon-edit_yes.png':'/static/img/icon-edit.png'}}"></image>
 				<view class="title">通用</view>
 				<view class="des">Quiet</view>
 			</view>
-			<view class="model-item  {{model_active==2?'model-item-active':'model-item-false'}}" bindtap="modelItem" bindtouchstart="modelTouchstart" bindtouchend="modelTouchend"    data-num="2">
+			<view class="model-item  {{model_active==2?'model-item-active':'model-item-false'}}" bindtap="modelItem"    bindtouchstart="modelTouchstart" bindtouchend="modelTouchend"    data-num="2">
 				<image src="{{model_active==2?'/static/img/cof_yes.png':'/static/img/cof.png'}}"></image>
 				<view class="title">餐厅</view>
 				<view class="des">Restaurant</view>
 			</view>
-			<view class="model-item {{model_active==3?'model-item-active':'model-item-false'}}" bindtap="modelItem" bindtouchstart="modelTouchstart" bindtouchend="modelTouchend"   data-num="3">
+			<view class="model-item {{model_active==3?'model-item-active':'model-item-false'}}" bindtap="modelItem" bindtouchstart="modelTouchstart" bindtouchend="modelTouchend"    data-num="3">
 				<image src="{{model_active==3?'/static/img/car_yes.png':'/static/img/car.png'}}"></image>
 				<view class="title">交通</view>
 				<view class="des">Traffic</view>
 			</view>
-			<view class="model-item {{model_active==4?'model-item-active':'model-item-false'}}" bindtap="modelItem" bindtouchstart="modelTouchstart" bindtouchend="modelTouchend"  data-num="4">
+			<view class="model-item {{model_active==4?'model-item-active':'model-item-false'}}" bindtap="modelItem" bindtouchstart="modelTouchstart" bindtouchend="modelTouchend"    data-num="4">
 				<image src="{{model_active==4?'/static/img/bal_yes.png':'/static/img/bal.png'}}"></image>
 				<view class="title">运动</view>
 				<view class="des">Motion</view>
@@ -72,22 +72,71 @@
 
 		</view>
 	</view>
-	<view wx:if="{{curId==3}}">
+
+
+  	<view wx:if="{{curId==3}}">
+	<view class="df fsb box number">
+      <view class="number">{{val_eq0}}</view>
+      <view class="number">{{val_eq1}}</view>
+      <view class="number">{{val_eq3}}</view>
+      <view class="number">{{val_eq6}}</view>
+      <view class="number">{{val_eq8}}</view>
+      <view class="number">{{val_eq12}}</view>
+    
+     
+    </view>
+		<view class="df fsb barContainer"> 
+		 <bar bind:change="change" data-id="eq0" precentData="{{num_eq0}}"></bar>	
+		 <bar bind:change="change" data-id="eq1" precentData="{{num_eq1}}"></bar>	
+		 <bar bind:change="change" data-id="eq3" precentData="{{num_eq3}}"></bar>	
+    <bar bind:change="change" data-id="eq6" precentData="{{num_eq6}}"></bar>	
+		 <bar bind:change="change" data-id="eq8" precentData="{{num_eq8}}"></bar>	 
+      <bar bind:change="change" data-id="eq12" precentData="{{num_eq12}}"></bar>	
+		</view>
+    <view class="df fsb box">
+      <view class="text">500Hz</view>
+      <view class="text">1kHz</view>
+       <view class="text">2kHz</view>
+      <view class="text">3kHz</view>
+      <view class="text">4kHz</view>
+      <view class="text">6kHz</view>
+    
+    </view>
+    	<view class="df fsb tac" style="padding-left:150rpx;padding-right:150rpx;">
+			<view class="left">
+				<view class="ear-l {{ear_active_1== true ?'earTrue':'ear'}}" bindtap="earTab" data-name="zuo">
+					<image src="{{ear_active_1== true ?'/static/img/ear-l-yes.png':'/static/img/ear-l.png'}}" class="ear-l"></image>
+				</view>
+				<view class="label">左耳</view>
+			</view>
+			<view class="lock"  bindtap="toggleLock" data-lock="{{isLock}}">
+				<image src="../../static/img/lock_yes.png" wx:if="{{isLock}}"  style="width:48rpx;height:24rpx"></image>
+				<image src="../../static/img/ulock.png" wx:if="{{!isLock}}"></image>
+			</view>
+			<view class="left">
+				<view class="ear-l {{ear_active_2==true ?'earTrue':'ear'}}" bindtap="earTab" data-name="you">
+					<image src="{{ear_active_2==true?'/static/img/ear-r-yes.png':'/static/img/ear-r.png'}}" class="ear-l"></image>
+				</view>
+				<view class="label">右耳</view>
+			</view>
+		</view>
+	</view>
+
+
+	<view wx:if="{{curId==4}}">
 	<view class="df fsb box number">
      <!-- <view class="number">{{n1}}</view>
       <view class="number">{{n2}}</view>
       <view class="number">{{n3}}</view>
       <view class="number">{{n4}}</view>
     -->
-      <view class="label_title">调节每个频段的音量拐点</view>
+      <view class="label_title">调节每个WDRC的增益</view>
     </view>
 		<view class="df fsb barContainer">
-		 <twobar bind:change_th="change_th" data-id="n1" precentData="{{num_ch1_th}}"></twobar>	
-		 <twobar bind:change_th="change_th" data-id="n2" precentData="{{num_ch2_th}}"></twobar>	
-		 <twobar bind:change_th="change_th" data-id="n3" precentData="{{num_ch3_th}}"></twobar>	
-		 <twobar bind:change_th="change_th" data-id="n4" precentData="{{num_ch4_th}}"></twobar>	
- 
-		
+		 <twobar bind:change_th="change_th" data-id="n1_wdrc" precentData="{{num_ch1_th}}"></twobar>	
+		 <twobar bind:change_th="change_th" data-id="n2_wdrc" precentData="{{num_ch2_th}}"></twobar>	
+		 <twobar bind:change_th="change_th" data-id="n3_wdrc" precentData="{{num_ch3_th}}"></twobar>	
+		 <twobar bind:change_th="change_th" data-id="n4_wdrc" precentData="{{num_ch4_th}}"></twobar>	 
 		</view>
     <view class="df fsb box">
       <view class="text">1kHz</view>
@@ -98,8 +147,8 @@
     </view>
     	<view class="df fsb tac" style="padding-left:150rpx;padding-right:150rpx;">
 			<view class="left">
-				<view class="ear-l {{spectrum_active=='zuo'?'earTrue':'ear'}}" bindtap="earTab" data-name="zuo">
-					<image src="{{spectrum_active=='zuo'?'/static/img/ear-l-yes.png':'/static/img/ear-l.png'}}" class="ear-l"></image>
+				<view class="ear-l {{ear_active_1== true ?'earTrue':'ear'}}" bindtap="earTab" data-name="zuo">
+					<image src="{{ear_active_1== true ?'/static/img/ear-l-yes.png':'/static/img/ear-l.png'}}" class="ear-l"></image>
 				</view>
 				<view class="label">左耳</view>
 			</view>
@@ -108,8 +157,8 @@
 				<image src="../../static/img/ulock.png" wx:if="{{!isLock}}"></image>
 			</view>
 			<view class="left">
-				<view class="ear-l {{spectrum_active=='you'?'earTrue':'ear'}}" bindtap="earTab" data-name="you">
-					<image src="{{spectrum_active=='you'?'/static/img/ear-r-yes.png':'/static/img/ear-r.png'}}" class="ear-l"></image>
+				<view class="ear-l {{ear_active_2==true ?'earTrue':'ear'}}" bindtap="earTab" data-name="you">
+					<image src="{{ear_active_2==true?'/static/img/ear-r-yes.png':'/static/img/ear-r.png'}}" class="ear-l"></image>
 				</view>
 				<view class="label">右耳</view>
 			</view>

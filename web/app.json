@@ -1,14 +1,15 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/enhance/index"
+    "pages/enhance/index",
+    "pages/index/puretone"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
     "navigationBarTitleText": "Weixin",
     "navigationBarTextStyle": "black",
-    "navigationStyle":"custom"
+    "navigationStyle": "custom"
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"
