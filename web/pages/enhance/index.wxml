@@ -78,28 +78,28 @@
 	<view class="df fsb box number">
       <view class="number">{{val_eq0}}</view>
       <view class="number">{{val_eq1}}</view>
+      <view class="number">{{val_eq2}}</view>
       <view class="number">{{val_eq3}}</view>
-      <view class="number">{{val_eq6}}</view>
-      <view class="number">{{val_eq8}}</view>
-      <view class="number">{{val_eq12}}</view>
+      <view class="number">{{val_eq4}}</view>
+      <view class="number">{{val_eq5}}</view>
     
      
     </view>
 		<view class="df fsb barContainer"> 
 		 <bar bind:change="change" data-id="eq0" precentData="{{num_eq0}}"></bar>	
 		 <bar bind:change="change" data-id="eq1" precentData="{{num_eq1}}"></bar>	
-		 <bar bind:change="change" data-id="eq3" precentData="{{num_eq3}}"></bar>	
-    <bar bind:change="change" data-id="eq6" precentData="{{num_eq6}}"></bar>	
-		 <bar bind:change="change" data-id="eq8" precentData="{{num_eq8}}"></bar>	 
-      <bar bind:change="change" data-id="eq12" precentData="{{num_eq12}}"></bar>	
+		 <bar bind:change="change" data-id="eq2" precentData="{{num_eq2}}"></bar>	
+    <bar bind:change="change" data-id="eq3" precentData="{{num_eq3}}"></bar>	
+		 <bar bind:change="change" data-id="eq4" precentData="{{num_eq4}}"></bar>	 
+      <bar bind:change="change" data-id="eq5" precentData="{{num_eq5}}"></bar>	
 		</view>
     <view class="df fsb box">
       <view class="text">500Hz</view>
       <view class="text">1kHz</view>
-       <view class="text">2kHz</view>
+       <view class="text">1.5kHz</view>
+      <view class="text">2kHz</view>
+      <view class="text">2.5kHz</view>
       <view class="text">3kHz</view>
-      <view class="text">4kHz</view>
-      <view class="text">6kHz</view>
     
     </view>
     	<view class="df fsb tac" style="padding-left:150rpx;padding-right:150rpx;">

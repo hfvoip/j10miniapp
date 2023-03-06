@@ -9,7 +9,7 @@ Page({
     showScan: false,
     filterRssi: -100,
     // 过滤名称
-    filterName: 'J10',
+    filterName: '',
     // 是否显示filter
     showFilter: false,
     
@@ -142,7 +142,14 @@ Page({
       // 更新 & 过滤 
       if (!checkDuplicateDevice(device, devices) && device.RSSI >= this.data.filterRssi
       ) {
-        devices.push(device);
+        let devname = device.name; 
+        if (devname ){ 
+           //加个JH,是保证indexof 返回>0
+          devname = 'JH'+device.name;
+          console.log(devname);
+          if (devname.indexOf('OTC')  || devname.indexOf('ZB')|| devname.indexOf('J1'))
+            devices.push(device);
+          }
       }
       this.setData({ devices });
       console.log(devices);
@@ -209,7 +216,7 @@ Page({
     this._stopScan();
     let index = e.currentTarget.id;
     let device = this.data.devices[index];
-    
+    var mtu_size = 131;
     this.bt.connect(device).then(res => {
       console.log('home connect success', res);
       if (this.data.earid_scanning == "0") {
@@ -222,6 +229,17 @@ Page({
             ear0_connectstatus:2 
             }
 
+        );
+        wx.setBLEMTU({
+          deviceId: ''+device.deviceId,
+          mtu: mtu_size,
+          success:(res)=> {
+            console.log("setBLEMTU success>>", res);
+          },
+          fail:(res)=>{
+            console.log("setBLEMTU failed>>", res);
+          }
+        },
         );
 
  
