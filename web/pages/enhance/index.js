@@ -98,9 +98,21 @@ Page({
        }
     }
 
-    //e.detail.percent 换算为audiolabel  0%-100% =>0-20
-    var audiolevel = Math.floor(e.detail.precent * 0.2);
- 
+    //e.detail.percent 换算为audiolabel  0%-100% =>0-40
+    var audiolevel = Math.floor(e.detail.precent * 0.4);
+    var delta_audiolevel = audiolevel - this.arr_active_eardata[37] ;
+    
+    var bpass = 1;
+    var tmp_gain = 0;
+    for (var i=0;i<8;i++) {
+      tmp_gain =  this.arr_active_eardata[36+i] +delta_audiolevel;
+      if ((tmp_gain <0) || (tmp_gain >40)) {
+        bpass = 0;
+        break;
+      } 
+    }
+    if (bpass ==0)
+    return;
 
     if(this.data.isLock) {
         this.setData({
@@ -115,7 +127,9 @@ Page({
       })
 
     }
-    this.arr_active_eardata[6] = audiolevel;
+    for (var i=0;i<8;i++) { 
+      this.arr_active_eardata[36+i] = this.arr_active_eardata[36+i] +delta_audiolevel;;
+    }
     this._set_gain(audiolevel);
      
   },
@@ -438,8 +452,15 @@ Page({
   },
 
   _set_mem(val) {
+     
+    var str = "aa0000";
+    //val 1::4=>01::03
+    str +='0';
+
+    str +=(val-1); 
+    console.log(str);
     
- 
+    this._write_toha(str);
     
 
 
@@ -594,7 +615,9 @@ Page({
           this.arr_active_eardata[i] = arr_res[i];
          //在这里decode ble data (100个字节),数据范围和网页端保持一致
         
-      var audiolevel = arr_res[6];   //0-20
+         
+      var audiolevel = arr_res[37];   //用tkgain[1]的值表示36..47表示8个tkgain
+      console.log('audiolevel:'+ audiolevel);
       var noise = 0 ; //arr_res[2];    // not use 
       var mode = arr_res[0];  //mem_idx :0..3 
 
@@ -607,10 +630,11 @@ Page({
       var eq6 = arr_res[86];
       var eq7 = arr_res[87]; 
        
+      this.setData({model_active:(mode+1)});
   
-      //这是音量 0-200%，可以显示吗?
-      var tmp1 = Math.floor(audiolevel*100.0/20.0);
-      var res_num1 = {num:100,text:tmp1+'%'};     
+      //这是音量 ,tkgain:设置为0..40之间
+      var tmp1 = Math.floor(audiolevel*2.5);
+      var res_num1 = {num:audiolevel,text:tmp1+'%'};     
       this.setData({num1:res_num1});
       
 
